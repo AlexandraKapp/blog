@@ -11,28 +11,20 @@ scenario2 = gpd.read_file("data/example_different.gpkg")
 #### Option 1: use projected coordinates ####
 # using the EPSG:3035 projection ETRS89-extended / LAEA Europe
 
-example["centroid_3035"] = example.geometry.to_crs(3035).centroid
-scenario1["centroid_3035"] = scenario1.geometry.to_crs(3035).centroid
-scenario2["centroid_3035"] = scenario2.geometry.to_crs(3035).centroid
+def signature_opt1(gdf, crs):
+    centroids = gdf.geometry.to_crs(crs).centroid
 
-sig_original = np.empty((len(example), 3), dtype=np.float32) # float32 needed as input for cv2.emd!
-# we need to normalize the data in case the total n of the two compared distributions are not equal
-sig_original[:,0] = example.example_data / example.example_data.sum()
-sig_original[:,1] = example.centroid_3035.x
-sig_original[:,2] = example.centroid_3035.y
+    sig = np.empty((len(gdf), 3), dtype=np.float32) # float32 needed as input for cv2.emd!
+    # we need to normalize the data in case the total n of the two compared distributions are not equal
+    sig[:,0] = gdf.example_data / gdf.example_data.sum()
+    sig[:,1] = centroids.x
+    sig[:,2] = centroids.y
+    return sig
 
-sig_scen1 = np.empty((len(scenario1), 3), dtype=np.float32) # float32 needed as input for cv2.emd!
-# we need to normalize the data in case the total n of the two compared distributions are not equal
-sig_scen1[:,0] = scenario1.example_data / scenario1.example_data.sum()
-sig_scen1[:,1] = scenario1.centroid_3035.x
-sig_scen1[:,2] = scenario1.centroid_3035.y
+sig_original = signature_opt1(example, 3035)
+sig_scen1 = signature_opt1(scenario1, 3035)
+sig_scen2 = signature_opt1(scenario2, 3035)
 
-
-sig_scen2 = np.empty((len(scenario2), 3), dtype=np.float32) # float32 needed as input for cv2.emd!
-# we need to normalize the data in case the total n of the two compared distributions are not equal
-sig_scen2[:,0] = scenario2.example_data / scenario2.example_data.sum()
-sig_scen2[:,1] = scenario2.centroid_3035.x
-sig_scen2[:,2] = scenario2.centroid_3035.y
 
 emd_scen1, _ , _ = cv2.EMD(sig_original, sig_scen1, distType = cv2.DIST_L2)
 emd_scen2, _ , _ = cv2.EMD(sig_original, sig_scen2, distType = cv2.DIST_L2)
@@ -44,11 +36,11 @@ print("Earth movers distance scenario 2 (CRS: EGSG:3035): " + str(round(emd_scen
 
 #### Option 2: construct a custom cost_matrix with the haversine distance ####
 
-example["centroid_4326"] = example.geometry.to_crs(3395).centroid.to_crs(4326)
-scenario1["centroid_4326"] = scenario1.geometry.to_crs(3395).centroid.to_crs(4326)
-scenario2["centroid_4326"] = scenario2.geometry.to_crs(3395).centroid.to_crs(4326)
-
-def get_cost_matrix(coords_sig1, coords_sig2):
+def get_cost_matrix(gdf1, gdf2):
+    gdf1_centroids = gdf1.to_crs(3395).centroid.to_crs(4326)
+    gdf2_centroids = gdf2.to_crs(3395).centroid.to_crs(4326)
+    coords_sig1 = list(zip(gdf1_centroids.y, gdf1_centroids.x))
+    coords_sig2 = list(zip(gdf2_centroids.y, gdf2_centroids.x))
     #get all potential combinations between all points from sig1 and sig2
     grid = np.meshgrid(range(0, len(coords_sig1)), 
                         range(0, len(coords_sig2)))
@@ -66,15 +58,13 @@ def get_cost_matrix(coords_sig1, coords_sig2):
     # reshape array to matrix
     return np.reshape(cost_matrix, (len(coords_sig1),len(coords_sig2)))
 
-# as the coordinates in both scenarios are the same, 
-# the cost matrix can be used for both scenarios
-coords_sig1 = list(zip(example.centroid_4326.y, example.centroid_4326.x))
-coords_sig2 = list(zip(scenario1.centroid_4326.y, scenario1.centroid_4326.x))
+# as the coordinates are the same in both scenarios 
+# you could use the same cost matrix for both scenarios
+cost_matrix1 = get_cost_matrix(example, scenario1)
+cost_matrix2 = get_cost_matrix(example, scenario2)
 
-cost_matrix = get_cost_matrix(coords_sig1, coords_sig2)
-
-emd_scen1, _ , _ = cv2.EMD(sig_original, sig_scen1, distType = cv2.DIST_USER, cost = cost_matrix)
-emd_scen2, _ , _ = cv2.EMD(sig_original, sig_scen2, distType = cv2.DIST_USER, cost = cost_matrix)
+emd_scen1, _ , _ = cv2.EMD(sig_original, sig_scen1, distType = cv2.DIST_USER, cost = cost_matrix1)
+emd_scen2, _ , _ = cv2.EMD(sig_original, sig_scen2, distType = cv2.DIST_USER, cost = cost_matrix2)
 
 print("Option 2:")
 print("Earth movers distance scenario 1: " + str(round(emd_scen1)) + " meters")
