@@ -4,18 +4,6 @@ Collection of use cases that human mobility data in needed for in the urban sett
 
 ## Urban and Traffic Planning
 
-<style>
-table th:first-of-type {
-    width: 10%;
-}
-table th:nth-of-type(2) {
-    width: 40%;
-}
-table th:nth-of-type(3) {
-    width: 50%;
-}
-</style>
-
 | Topic | Use Case | Example |
 |---|---|---|
 | traffic simulation | Traffic model to simulate the  influence of different scenarios on traffic situations. E.g., the opening of  a new shopping mall or adding a new bus line. | <ul><li>Four-step traffic demand model that uses origin-destination marices (e.g., [Visum PTV](https://www.ptvgroup.com/de/loesungenprodukte/ptv-visum/))</li> <li>[MatSim](https://www.matsim.org/): agent-based model that uses day plans </li> <li>[BikeSim](https://www.bmvi.de/SharedDocs/DE/Artikel/DG/mfund-projekte/bikeSim.html):  bike simulation that uses cyclist trajectories</li>|
