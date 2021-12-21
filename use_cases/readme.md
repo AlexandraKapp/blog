@@ -1,6 +1,6 @@
 # Human Mobility Data Use Case Collection
 
-Use cases that human mobility data in needed for in the urban setting, as described in [this]() blog article. This is intended as a continously growing collection.
+Use cases that human mobility data in needed for in the urban setting, as described in [this](https://alexandrakapp.blog/2021/12/21/use-cases-based-on-human-mobility-data-part-1-urban-and-traffic-planning/) blog article. This is intended as a continously growing collection.
 
 ## Urban and Traffic Planning
 
