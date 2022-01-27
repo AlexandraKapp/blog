@@ -22,9 +22,13 @@ Use cases that human mobility data is needed for in the urban setting, as descri
 
 | Topic | Use Case | Example |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-
+| bike routing | Optimize bicycle routing based on historic cyclist trajectories, e.g., speed and preferred routes. | [Cyclers](https://cyclers.tech/)   is an example of a bicycle routing app that claims to use such data. |
+| public transport (passenger load forecast) | Historic passenger load data is used by public transport companies and routing applications to estimate future passenger load and display this information alongside routing suggestions so that passengers can choose routes where busses and subways aren't too crowded. | Examples of public transport companies providing passenger load forecasts: [Deutsche   Bahn](https://www.bahn.de/service/buchung/auslastungsinformation),   [BVG](https://go.bvg.de/auslastungsanzeige),   [RMV](https://www.rmv.de/c/de/informationen-zum-rmv/der-rmv/rmv-aktuell/auslastungsprognose) |
+| car routing (traffic jams) | Car routing that makes use of traffic jam information. |<ul><li>[Article](https://www.pcwelt.de/ratgeber/Stau-Warnung-Google-Maps-Tomtom-Verkehrslage-Echtzeitverkehrsinformationen-373385.html) with detailed information on different providers and their data sources</li> <li>Example applications: [Google Maps](https://support.google.com/maps/answer/3092439?hl=en&co=GENIE.Platform%3DiOS#zippy=%2Ctraffic),   [TomTom](https://www.tomtom.com/de_de/navigation/),   [HERE](https://developer.here.com/documentation/traffic/dev_guide/topics/what-is.html),   or [INRIX](https://inrix.com/press-releases/inrix-launches-xd-traffic/)</li></ul> |
+| car parking | Provide information on free parking spots to drivers based on data provided by sensors in smartphones (placed as dashcams on the windshield) and cars. | Example companies:   [INRIX](https://inrix.com/blog/ultrasonic-sensor-parking-availability-technology/),[Bosch](https://www.bosch.com/stories/artificial-intelligence-community-based-parking/),   [Bliq](https://medium.com/bliq/denso-and-bliq-team-up-to-shape-the-future-of-city-parking-f214e25fd367) | 
+| smart traffic management system | Smart traffic management systems adjust traffic lights and manage traffic flows according to real-time traffic data (e.g., acquired through sensors) to optimize traffic. | studies by, e.g.,   [Ritzwan et al., 2017](https://ieeexplore.ieee.org/abstract/document/7873660), [Iqbal et al., 2018](https://ieeexplore.ieee.org/abstract/document/8323770) or [Saikar et   al. 2017](https://ieeexplore.ieee.org/abstract/document/7977008). | 
+| electric car charging recommendation | Intelligent planning of electric car charging based on historic data. | studies by, e.g.,   [Wang et al., 2020](https://dl.acm.org/doi/pdf/10.1145/3381003) or [Zhang et al., 2021](https://arxiv.org/pdf/2102.07359.pdf) |
+| matching for ridesharing | Automated matching of drivers and passengers for carpooling based on historic mobility patterns. | studies by, e.g., [Liu et al.,   2013](https://journals.sagepub.com/doi/full/10.1155/2013/615282), [Li et al.,   2015](https://ieeexplore.ieee.org/document/7355390) or [Roor et al.,   2018](https://hal.archives-ouvertes.fr/hal-01693691/document) |
 ## Other Use Cases
 
 | Topic | Use Case | Example |
